@@ -1,0 +1,11 @@
+GET http://localhost:8000/products/2/
+
+
+POST http://localhost:8000/products/
+Content-Type: application/json
+  {
+    "name":"Television",
+    "price":"3000",
+    "stock":"14",
+    "description":"An Amazing new TV"
+}
