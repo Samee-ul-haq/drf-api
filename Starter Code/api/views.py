@@ -9,12 +9,16 @@ from rest_framework.views import APIView
 from rest_framework.permissions import (
     IsAuthenticated,
     IsAdminUser,
-    AllowAny
 )
 from api.filters import ProductFilter,InStockFilterBackend
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_query_param = 'pagenum'
+    page_size_query_param = 'size'
+    max_page_size = 10
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset=Product.objects.all()
@@ -28,16 +32,15 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         ]
     search_fields=['name','description']
     ordering_fields=['name','price','stock']
-    pagination_class=PageNumberPagination
-    pagination_class.page_query_param='pagenum'
-    pagination_class.page_size_query_param='size'
-    pagination_class.max_page_size=10
+    pagination_class=StandardResultsSetPagination
+    
 
-    def get_permission(self):
-        self.permission_class=[AllowAny]
-        if self.request.method=='POST':
-            self.permission_class=[IsAdminUser]
-        return super().get_permission()
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            self.permission_classes = [IsAuthenticated]
+        else:
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
 
 # class ProductCreateAPIView(generics.CreateAPIView):
 #     model=Product
@@ -86,6 +89,7 @@ def product_info(request):
 
 
 class productInfoView(APIView):
+    permission_classes=[IsAuthenticated]
     def get(sef,request):
         products=Product.objects.all()
         serializer=ProductInfoSerialize({

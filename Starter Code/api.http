@@ -1,11 +1,23 @@
-GET http://localhost:8000/products/2/
+GET http://localhost:8000/products/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MzU5NTMwLCJpYXQiOjE3NzYzNTkyMzAsImp0aSI6ImZjOTUzNDUwYWNlNDQ4ZjliYjA0NWFmODIxYWY3NDZhIiwidXNlcl9pZCI6IjIifQ.fE5jKlDgubr-UmbD8XG_4FQiKdTms-NxbkMeBxY1is8
+###
 
+POST http://localhost:8000/api/token/
+Content-Type: application/json
 
+{
+  "username": "sami",
+  "password": "test@123"
+}
+
+### Create a New Product
 POST http://localhost:8000/products/
 Content-Type: application/json
-  {
-    "name":"Television",
-    "price":"3000",
-    "stock":"14",
-    "description":"An Amazing new TV"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MzU5NTMwLCJpYXQiOjE3NzYzNTkyMzAsImp0aSI6ImZjOTUzNDUwYWNlNDQ4ZjliYjA0NWFmODIxYWY3NDZhIiwidXNlcl9pZCI6IjIifQ.fE5jKlDgubr-UmbD8XG_4FQiKdTms-NxbkMeBxY1is8
+
+{
+    "name": "New Smartphone",
+    "description": "A high-end smartphone with a great camera.",
+    "price": 799.99,
+    "stock": 50
 }
