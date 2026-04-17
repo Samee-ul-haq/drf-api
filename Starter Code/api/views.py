@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from api.serializers import ProductSerializer,OrderSerializer,OrderItemSerializer,ProductInfoSerialize
+from api.serializers import ProductSerializer,OrderSerializer,OrderItemSerializer,ProductInfoSerializer
 from api.models import Product,Order,OrderItem
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -77,8 +77,12 @@ def orderItem_list(request):
 
 @api_view(['GET'])
 def product_info(request):
-    products=Product.objects.all()
-    serializer=ProductInfoSerialize({
+    # prefetch_related to optimize the query and avoid N+1 problem when 
+    # accessing related data in the serializer for each product.
+    # It will fetch all related order items and their associated products in a single query, 
+    # improving performance when serializing the product information.
+    products=Product.objects.prefetch_related('items','items__product').all()
+    serializer=ProductInfoSerializer({
         'products':products,
         'count':len(products), 
         'max_price':products.aggregate(max_price=Max('price'))['max_price']
@@ -92,7 +96,7 @@ class productInfoView(APIView):
     permission_classes=[IsAuthenticated]
     def get(sef,request):
         products=Product.objects.all()
-        serializer=ProductInfoSerialize({
+        serializer=ProductInfoSerializer({
             'products':products,
             'count':len(products), 
             'max_price':products.aggregate(max_price=Max('price'))['max_price']

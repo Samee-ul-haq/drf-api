@@ -21,3 +21,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
     "price": 799.99,
     "stock": 50
 }
+
+### Get Product Information
+GET http://localhost:8000/orders/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2NDQzNTM5LCJpYXQiOjE3NzY0NDMyMzksImp0aSI6IjRlOWUyNDJmMmI2NjQxZTM5MzlmYTQzMzQ4MGI0ZmYwIiwidXNlcl9pZCI6IjIifQ.EzYIn1zBIIESXdNcukIBWlK0bH_BZP8xUiUfntmTZ9M
