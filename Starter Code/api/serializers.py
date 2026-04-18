@@ -20,11 +20,14 @@ class ProductSerializer(serializers.ModelSerializer):
         return value
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    # This nests the full product details inside the order item
+    product=ProductSerializer(read_only=True)
     class Meta:
         model=OrderItem
         fields=(
             'product',
             'quantity',
+            'price',
         )
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -47,15 +50,35 @@ class OrderSerializer(serializers.ModelSerializer):
         )
 
 class ProductInfoSerializer(serializers.Serializer):
-    # Get the list of all products, total count of products, 
-    # and the maximum price among the products by creating a 
-    # custom serializer that aggregates this information.
-    # The serializer should return a JSON response with the 
-    # following structure:API response structure:
-    # {
-    #     "products": [ ... list of products ... ],
-    #     "count": total_number_of_products,
-    #     "max_price": maximum_price_among_products     
+    """ Get the list of all products, total count of products, 
+     and the maximum price among the products by creating a 
+     custom serializer that aggregates this information.
+     The serializer should return a JSON response with the 
+     following structure:API response structure:
+     {
+         "products": [ ... list of products ... ],
+         "count": total_number_of_products,
+         "max_price": maximum_price_among_products """    
     products=ProductSerializer(many=True)
     count=serializers.IntegerField()
     max_price=serializers.FloatField()
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields=(
+            'username',
+            'email',
+            'password',
+        )
+        extra_kwargs={
+            'password':{'write_only':True}
+        } # Ensure that the password is write-only and not included in the serialized output.
+    def create(self, validated_data):
+        user=User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
