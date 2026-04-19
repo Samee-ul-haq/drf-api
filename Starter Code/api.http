@@ -1,6 +1,5 @@
 GET http://localhost:8000/products/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MzU5NTMwLCJpYXQiOjE3NzYzNTkyMzAsImp0aSI6ImZjOTUzNDUwYWNlNDQ4ZjliYjA0NWFmODIxYWY3NDZhIiwidXNlcl9pZCI6IjIifQ.fE5jKlDgubr-UmbD8XG_4FQiKdTms-NxbkMeBxY1is8
-###
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2NTMzMDU1LCJpYXQiOjE3NzY1MzI3NTUsImp0aSI6IjZjODdiZTVhNDc2ZjQ4YTQ5ZDRkYmM1ZTZlZmIyZjMxIiwidXNlcl9pZCI6IjIifQ.MnSZYJsH5tZvDoxrPZwXy5oLLiZe7h2TqaPHF19ALYE
 
 POST http://localhost:8000/api/token/
 Content-Type: application/json
@@ -13,8 +12,8 @@ Content-Type: application/json
 ### Create a New Product
 POST http://localhost:8000/products/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MzU5NTMwLCJpYXQiOjE3NzYzNTkyMzAsImp0aSI6ImZjOTUzNDUwYWNlNDQ4ZjliYjA0NWFmODIxYWY3NDZhIiwidXNlcl9pZCI6IjIifQ.fE5jKlDgubr-UmbD8XG_4FQiKdTms-NxbkMeBxY1is8
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2NTMzMDU1LCJpYXQiOjE3NzY1MzI3NTUsImp0aSI6IjZjODdiZTVhNDc2ZjQ4YTQ5ZDRkYmM1ZTZlZmIyZjMxIiwidXNlcl9pZCI6IjIifQ.MnSZYJsH5tZvDoxrPZwXy5oLLiZe7h2TqaPHF19ALYE
+\
 {
     "name": "New Smartphone",
     "description": "A high-end smartphone with a great camera.",
@@ -24,4 +23,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 ### Get Product Information
 GET http://localhost:8000/orders/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2NDQzNTM5LCJpYXQiOjE3NzY0NDMyMzksImp0aSI6IjRlOWUyNDJmMmI2NjQxZTM5MzlmYTQzMzQ4MGI0ZmYwIiwidXNlcl9pZCI6IjIifQ.EzYIn1zBIIESXdNcukIBWlK0bH_BZP8xUiUfntmTZ9M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2NTMzMDU1LCJpYXQiOjE3NzY1MzI3NTUsImp0aSI6IjZjODdiZTVhNDc2ZjQ4YTQ5ZDRkYmM1ZTZlZmIyZjMxIiwidXNlcl9pZCI6IjIifQ.MnSZYJsH5tZvDoxrPZwXy5oLLiZe7h2TqaPHF19ALYE
+
+
+###
+POST http://localhost:8000/auth/register/
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "password": "securepassword"
+}

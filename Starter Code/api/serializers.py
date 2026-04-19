@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Product,Order,OrderItem
-from django.contrib.auth.models import User
+from .models import Product, Order, OrderItem, User
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
     def get_total_price(self,obj):
         order_items=obj.items.all()
         return sum(order_item.item_subtotal for order_item in order_items)
-    
+
     class Meta:
         model=Order
         fields=(
@@ -48,6 +47,20 @@ class OrderSerializer(serializers.ModelSerializer):
             "total_price",
             'items',
         )
+
+class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    username = serializers.CharField(max_length=150)
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
 
 class ProductInfoSerializer(serializers.Serializer):
     """ Get the list of all products, total count of products, 
@@ -63,22 +76,3 @@ class ProductInfoSerializer(serializers.Serializer):
     count=serializers.IntegerField()
     max_price=serializers.FloatField()
 
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=User
-        fields=(
-            'username',
-            'email',
-            'password',
-        )
-        extra_kwargs={
-            'password':{'write_only':True}
-        } # Ensure that the password is write-only and not included in the serialized output.
-    def create(self, validated_data):
-        user=User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
-        )
-        return user

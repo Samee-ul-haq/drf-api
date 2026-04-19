@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
  
 class User(AbstractUser):
     pass
@@ -26,14 +27,15 @@ class Order(models.Model):
         CANCELLED='Cancelled'
 
     order_id=models.UUIDField(primary_key=True,default=uuid.uuid4)
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
     status=models.CharField(
         max_length=10,
         choices=TextChoices.choices,
         default=TextChoices.PENDING
     )
-    products=models.ManyToManyField(Product,through="orderItem",related_name='orders')
+    products=models.ManyToManyField(Product,through="OrderItem",related_name='orders')
 
     def __str__(self):
         return f"Order {self.order_id} by {self.user.username}"
@@ -50,3 +52,4 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} X {self.product.name} in Order {self.order.order_id}"
+    

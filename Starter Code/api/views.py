@@ -12,13 +12,13 @@ from rest_framework.permissions import (
     IsAdminUser,
     AllowAny,
 )
-from django.contrib.auth.models import get_user_model # to get the user model, which is useful if you have a custom user model
+from django.contrib.auth import get_user_model # to get the user model, which is useful if you have a custom user model
 from api.filters import ProductFilter,InStockFilterBackend
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
-from project1.start.serializers import UserSerializer
 from rest_framework import viewsets
+from .serializers import UserSerializer
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_query_param = 'pagenum'
@@ -80,13 +80,13 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 #     serializer=OrderItemSerializer(order_item,many=True)
 #     return Response(serializer.data)
 
-class orderList(generics.ListAPIView):
+class orderListAPIView(generics.ListAPIView):
     permission_classes=[IsAuthenticated]
     queryset=Order.objects.all()
     serializer_class=OrderSerializer 
     
 
-class orderItemList(generics.ListAPIView):
+class orderItemListAPIView(generics.ListAPIView):
     permission_classes=[IsAuthenticated]
     queryset=OrderItem.objects.all()
     serializer_class=OrderItemSerializer # to serialize the order items and return them in the response
@@ -142,7 +142,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 
-class ProductViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticated]
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+# class ProductViewSet(viewsets.ModelViewSet):
+#     permission_classes=[IsAuthenticated]
+#     queryset = Product.objects.all()
+#     serializer_class = ProductSerializer
